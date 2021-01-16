@@ -4,7 +4,10 @@ local function testprint()
     local cursor_y = vim.api.nvim_win_get_cursor(0)[2]
     local height = vim.fn.nvim_win_get_height(0)
     local width = vim.fn.nvim_win_get_width(0)
-    local test = vim.cmd("echo expand('%:p')")
+    -- local test = vim.cmd("echo expand('%:p')")
+
+    -- run vim function
+    local test = vim.fn.expand('%:p')
 
     -- press any key
     -- vim.api.nvim_input("dd")
@@ -19,8 +22,8 @@ local function testprint()
     -- print(data)
     -- print(height, test, width, cursor_x, cursor_y, vim.inspect(vim.api.nvim_win_get_cursor(0)))
 
-    local buffer_path = "~/tmp/testFile"
-    WriteToFile(buffer_path .. ":" .. cursor_x .. ":" .. cursor_y, "test.lua")
+    local buffer_path = vim.api.nvim_buf_get_name(0)
+    WriteToFile(buffer_path .. ":" .. cursor_x .. ":" .. cursor_y, "test")
     -- vim.inspect(vim.api.nvim_win_get_cursor(0))
 end
 
