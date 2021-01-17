@@ -4,10 +4,14 @@ local function create_todo()
     local cursor_y = vim.api.nvim_win_get_cursor(0)[2]
 
     local title = vim.fn.input("TODO title: ")
-    print(" ...saved")
+    if title == nil or title == '' then
+        print(' ...canceled')
+    else
+        print(" ...saved")
+        local buffer_path = vim.api.nvim_buf_get_name(0)
+        WriteToFile("\n===================\n\n" .. title .. ":\n" .. buffer_path .. ":" .. cursor_x .. ":" .. cursor_y, os.getenv('HOME') .. "/nvim.todo")
+    end
 
-    local buffer_path = vim.api.nvim_buf_get_name(0)
-    WriteToFile("\n===================\n\n" .. title .. ":\n" .. buffer_path .. ":" .. cursor_x .. ":" .. cursor_y, os.getenv('HOME') .. "/nvim.todo")
 end
 
 local function jump_to_file_with_column()
