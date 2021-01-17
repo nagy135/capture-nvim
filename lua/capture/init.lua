@@ -1,30 +1,23 @@
-local function testprint()
+local function create_todo()
 
     local cursor_x = vim.api.nvim_win_get_cursor(0)[1]
     local cursor_y = vim.api.nvim_win_get_cursor(0)[2]
-    local height = vim.fn.nvim_win_get_height(0)
-    local width = vim.fn.nvim_win_get_width(0)
-    -- local test = vim.cmd("echo expand('%:p')")
 
-    -- run vim function
-    local test = vim.fn.expand('%:p')
-
-    -- press any key
-    -- vim.api.nvim_input("dd")
-
-    -- run command
-    -- vim.api.nvim_command('%s/print/bar/g')
-
-    -- print dict
-    -- vim.inspect(vim.api.nvim_win_get_cursor(0))
-    -- local data = [[%t %m]]
-
-    -- print(data)
-    -- print(height, test, width, cursor_x, cursor_y, vim.inspect(vim.api.nvim_win_get_cursor(0)))
+    local title = vim.fn.input("TODO title: ")
+    print(" ...saved")
 
     local buffer_path = vim.api.nvim_buf_get_name(0)
-    WriteToFile(buffer_path .. ":" .. cursor_x .. ":" .. cursor_y, "test")
-    -- vim.inspect(vim.api.nvim_win_get_cursor(0))
+    WriteToFile("\n" .. title .. ":\n" .. buffer_path .. ":" .. cursor_x .. ":" .. cursor_y, "test")
+end
+
+local function jump_to_file_with_column()
+    local target = vim.fn.expand('<cWORD>')
+    local parts = vim.split(target, ":")
+    local file = parts[1]
+    local line = tonumber(parts[2])
+    local column = tonumber(parts[3])
+    vim.api.nvim_command('e ' .. file)
+    vim.api.nvim_win_set_cursor(0, {line, column})
 end
 
 function WriteToFile(content, file)
@@ -35,7 +28,8 @@ function WriteToFile(content, file)
 end
 
 return {
-    testprint = testprint
+    create_todo = create_todo,
+    jump_to_file_with_column = jump_to_file_with_column
 }
 
 -- /home/infiniter/Code/Capture/capture.vim:6:5
