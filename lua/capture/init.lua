@@ -7,7 +7,7 @@ local function create_todo()
     print(" ...saved")
 
     local buffer_path = vim.api.nvim_buf_get_name(0)
-    WriteToFile("\n" .. title .. ":\n" .. buffer_path .. ":" .. cursor_x .. ":" .. cursor_y, "test")
+    WriteToFile("\n" .. title .. ":\n" .. buffer_path .. ":" .. cursor_x .. ":" .. cursor_y, "~/nvim_todo")
 end
 
 local function jump_to_file_with_column()
