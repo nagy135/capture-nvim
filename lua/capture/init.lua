@@ -1,4 +1,5 @@
-local function create_todo()
+local capture = {}
+function capture.create_todo()
 
     local cursor_x = vim.api.nvim_win_get_cursor(0)[1]
     local cursor_y = vim.api.nvim_win_get_cursor(0)[2]
@@ -14,7 +15,7 @@ local function create_todo()
 
 end
 
-local function jump_to_file_with_column()
+function capture.jump_to_file_with_column()
     local target = vim.fn.expand('<cWORD>')
     local parts = vim.split(target, ":")
     local file = parts[1]
@@ -31,7 +32,4 @@ function WriteToFile(content, file)
     io.close(file)
 end
 
-return {
-    create_todo = create_todo,
-    jump_to_file_with_column = jump_to_file_with_column
-}
+return capture;
