@@ -7,7 +7,7 @@ local function create_todo()
     print(" ...saved")
 
     local buffer_path = vim.api.nvim_buf_get_name(0)
-    WriteToFile("\n" .. title .. ":\n" .. buffer_path .. ":" .. cursor_x .. ":" .. cursor_y, "~/nvim_todo")
+    WriteToFile("\n===================\n\n" .. title .. ":\n" .. buffer_path .. ":" .. cursor_x .. ":" .. cursor_y, os.getenv('HOME') .. "/nvim.todo")
 end
 
 local function jump_to_file_with_column()
@@ -31,5 +31,3 @@ return {
     create_todo = create_todo,
     jump_to_file_with_column = jump_to_file_with_column
 }
-
--- /home/infiniter/Code/Capture/capture.vim:6:5

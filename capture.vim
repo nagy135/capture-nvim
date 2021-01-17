@@ -1,11 +1,12 @@
 " this file is for development purposes
 
 fun! Capture()
-    " lua for k in pairs(package.loaded) do if k:match("^capture") then package.loaded[k] = nil end end
+    lua for k in pairs(package.loaded) do if k:match("^capture") then package.loaded[k] = nil end end
     lua require("capture").create_todo()
 endfun
 
 fun! CaptureJump()
+    lua for k in pairs(package.loaded) do if k:match("^capture") then package.loaded[k] = nil end end
     lua require("capture").jump_to_file_with_column()
 endfun
 
