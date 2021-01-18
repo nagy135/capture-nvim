@@ -11,6 +11,7 @@ Plug 'nagy135/capture-nvim'
 ```
 
 ## Usage
+![demo](demo_todo_list.png)
 This plugin is in initial development so all we have now is :
 
 + leader X - create new todo
