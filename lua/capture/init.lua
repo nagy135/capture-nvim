@@ -1,4 +1,7 @@
 local capture = {}
+
+capture.todo_file = os.getenv('HOME') .. "/todo.md";
+
 function capture.create_todo()
 
     local cursor_x = vim.api.nvim_win_get_cursor(0)[1]
@@ -10,7 +13,7 @@ function capture.create_todo()
     else
         print(" ...saved")
         local buffer_path = vim.api.nvim_buf_get_name(0)
-        WriteToFile("\n===================\n\n" .. title .. ":\n" .. buffer_path .. ":" .. cursor_x .. ":" .. cursor_y, os.getenv('HOME') .. "/nvim.todo")
+        WriteToFile("# " .. title .. "\n" .. buffer_path .. ":" .. cursor_x .. ":" .. cursor_y .. "\n", capture.todo_file)
     end
 
 end
