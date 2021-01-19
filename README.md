@@ -27,3 +27,8 @@ with project name. This separates todo files
 ```
 let g:project_root_todo = 1
 ```
+
+## TODO
++ check if inside git repository (now vim crashes instead)
++ make higher level headers in combined root todo list
++ option to specify todo location (if not project_root_todo
