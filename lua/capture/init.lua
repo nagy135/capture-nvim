@@ -13,7 +13,7 @@ end
 -- runs given command and trims trailing whitespace (mostly newlines)
 function utils.run_and_trim(command)
     local handle = assert(io.popen(command), "not in the git repo")
-    local result = handle:read("*a")
+    local result = assert(handle:read("*a"))
     handle:close()
     return string.gsub(result, "%s+", "")
 end
