@@ -28,7 +28,7 @@ end
 
 local capture = {}
 
-capture.todo_file = os.getenv('HOME') .. "/todo.md";
+DEFAULT_TODO_FILE = os.getenv('HOME') .. "/todo.md";
 
 -- Creates new todo
 function capture.create_todo()
@@ -37,6 +37,16 @@ function capture.create_todo()
 
     local project_name = utils.get_project_name()
 
+    local todo_file
+    local project_name_header = ""
+    if vim.g['project_root_todo'] == 1 then
+        todo_file = utils.get_project_root_path() .. "/todo.md"
+    else
+        todo_file = DEFAULT_TODO_FILE
+        project_name_header = "(" .. project_name .. ")"
+    end
+
+
     local title = vim.fn.input("TODO title: ")
     if title == nil or title == '' then
         print(' ...canceled')
@@ -44,10 +54,9 @@ function capture.create_todo()
         print(" ...saved")
         local buffer_path = vim.api.nvim_buf_get_name(0)
         utils.write_to_file(
-        capture.todo_file,
-        "# (" ..
-        project_name ..
-        ") " ..
+        todo_file,
+        "# " ..
+        project_name_header ..
         title ..
         "\n" ..
         buffer_path ..
@@ -77,7 +86,9 @@ end
 
 function capture.test()
     local root_path = vim.g['project_root_todo']
-    print(vim.inspect(root_path))
+    if root_path == 1 then
+        print("haha")
+    end
 end
 
 -- Write 
