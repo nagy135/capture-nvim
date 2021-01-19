@@ -2,7 +2,7 @@ local utils = {}
 
 -- os call using git and sed to get project name
 function utils.get_project_name()
-    return utils.run_and_trim([[git config --local remote.origin.url|sed -n 's#.*/\([^.]*\)\.git#\1#p']])
+    return utils.run_and_trim([[git config --local remote.origin.url 2> /dev/null | sed -n 's#.*/\([^.]*\)\.git#\1#p']])
 end
 
 -- os call using git to get absolute path to project root
