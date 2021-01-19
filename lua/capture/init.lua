@@ -12,10 +12,10 @@ end
 
 -- runs given command and trims trailing whitespace (mostly newlines)
 function utils.run_and_trim(command)
-    local status, handle = pcall(io.popen(command))
+    local handle = io.popen(command)
+    local status, result = handle:read("*a")
+    handle:close()
     if status then
-        local result = handle:read("*a")
-        handle:close()
         return string.gsub(result, "%s+", "")
     else
         return nil
