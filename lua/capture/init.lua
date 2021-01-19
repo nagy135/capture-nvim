@@ -40,7 +40,13 @@ function capture.create_todo()
     local todo_file
     local project_name_header = ""
     if vim.g['project_root_todo'] == 1 then
-        todo_file = utils.get_project_root_path() .. "/todo.md"
+        local project_root = utils.get_project_root_path()
+        if project_root == "" or project_root == nil then
+            print('not in the project ...exiting (if you want this to work outside project, use let g:project_root_todo = 0 )')
+            return
+        end
+        todo_file = project_root .. "/todo.md"
+
     else
         todo_file = DEFAULT_TODO_FILE
         project_name_header = "(" .. project_name .. ") "
