@@ -18,7 +18,7 @@ function utils.run_and_trim(command)
     if status then
         return string.gsub(result, "%s+", "")
     else
-        return nil
+        return ""
     end
 end
 
@@ -45,7 +45,7 @@ function capture.create_todo()
     local project_name_header = ""
     if vim.g['project_root_todo'] == 1 then
         local project_root = utils.get_project_root_path()
-        if project_root == "" or project_root == nil then
+        if project_root == "" then
             print('not in the project ...exiting (if you want this to work outside project, use let g:project_root_todo = 0 )')
             return
         end
@@ -53,7 +53,7 @@ function capture.create_todo()
 
     else
         todo_file = DEFAULT_TODO_FILE
-        if project_name then
+        if project_name ~= "" then
             project_name_header = "(" .. project_name .. ") "
         end
     end
