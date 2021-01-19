@@ -53,7 +53,9 @@ function capture.create_todo()
 
     else
         todo_file = DEFAULT_TODO_FILE
-        project_name_header = "(" .. project_name .. ") "
+        if project_name then
+            project_name_header = "(" .. project_name .. ") "
+        end
     end
 
 
