@@ -5,9 +5,9 @@ fun! Capture()
     lua require("capture").create_todo()
 endfun
 
-fun! CaptureJump()
+fun! CaptureTest()
     lua for k in pairs(package.loaded) do if k:match("^capture") then package.loaded[k] = nil end end
-    lua require("capture").jump_to_file_with_column()
+    lua require("capture").test()
 endfun
 
 augroup Capture

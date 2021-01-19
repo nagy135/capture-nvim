@@ -65,6 +65,11 @@ function capture.jump_to_file_with_column()
     vim.api.nvim_win_set_cursor(0, {line, column})
 end
 
+function capture.test()
+    local root_path = vim.g['project_root_todo']
+    print(vim.inspect(root_path))
+end
+
 -- Write 
 
 return capture
