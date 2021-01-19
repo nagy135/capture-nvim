@@ -16,3 +16,14 @@ This plugin is in initial development so all we have now is :
 
 + leader X - create new todo
 + leader J - jump to file (improved gF that jumps to column as well as line)
+
+## Configuration
+
+Add following variable to your vimrc to alter behavior
+
+To create `todo.md` in root of currently opened project
+instead of default location where projects have header
+with project name. This separates todo files
+```
+let g:project_root_todo = 1
+```
