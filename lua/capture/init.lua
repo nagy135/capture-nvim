@@ -43,7 +43,7 @@ function capture.create_todo()
         todo_file = utils.get_project_root_path() .. "/todo.md"
     else
         todo_file = DEFAULT_TODO_FILE
-        project_name_header = "(" .. project_name .. ")"
+        project_name_header = "(" .. project_name .. ") "
     end
 
 
