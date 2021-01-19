@@ -2,7 +2,17 @@ local utils = {}
 
 -- os call using git and sed to get project name
 function utils.get_project_name()
-    local handle = io.popen([[git config --local remote.origin.url|sed -n 's#.*/\([^.]*\)\.git#\1#p']])
+    return utils.run_and_trim([[git config --local remote.origin.url|sed -n 's#.*/\([^.]*\)\.git#\1#p']])
+end
+
+-- os call using git to get absolute path to project root
+function utils.get_project_root_path()
+    return utils.run_and_trim([[git rev-parse --show-toplevel]])
+end
+
+-- runs given command and trims trailing whitespace (mostly newlines)
+function utils.run_and_trim(command)
+    local handle = io.popen(command)
     local result = handle:read("*a")
     handle:close()
     return string.gsub(result, "%s+", "")
