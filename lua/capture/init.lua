@@ -34,8 +34,10 @@ function capture.get_todo_file_location()
     local g_location = vim.g['todo_file_location']
     if g_location == nil or g_location == "" then
         return os.getenv('HOME') .. "/todo.md";
+    else
+        return g_location:gsub("^%s*~", os.getenv('HOME'))
     end
-    return g_location
+
 
 end
 
