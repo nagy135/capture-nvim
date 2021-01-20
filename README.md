@@ -38,4 +38,3 @@ let g:todo_file_location = "~/file"
 ## TODO
 + check if inside git repository (now vim crashes instead)
 + make higher level headers in combined root todo list
-+ option to specify todo location (if not project_root_todo
