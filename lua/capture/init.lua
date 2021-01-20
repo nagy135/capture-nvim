@@ -28,7 +28,16 @@ end
 
 local capture = {}
 
-DEFAULT_TODO_FILE = os.getenv('HOME') .. "/todo.md";
+-- validates user defined value or provides default
+-- for unified todo file location
+function capture.get_todo_file_location()
+    local g_location = vim.g['todo_file_location']
+    if g_location == nil or g_location == "" then
+        return os.getenv('HOME') .. "/todo.md";
+    end
+    return g_location
+
+end
 
 -- Creates new todo
 function capture.create_todo()
@@ -48,7 +57,7 @@ function capture.create_todo()
         todo_file = project_root .. "/todo.md"
 
     else
-        todo_file = DEFAULT_TODO_FILE
+        todo_file = capture.get_todo_file_location()
         if project_name ~= "" then
             project_name_header = "(" .. project_name .. ") "
         end
