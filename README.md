@@ -28,6 +28,13 @@ with project name. This separates todo files
 let g:project_root_todo = 1
 ```
 
+To change location of todo file, define following variable.
+Variable project_root_todo overrides this
+```
+let g:todo_file_location = "/absolute/path/to/file"
+let g:todo_file_location = "~/file"
+```
+
 ## TODO
 + check if inside git repository (now vim crashes instead)
 + make higher level headers in combined root todo list
