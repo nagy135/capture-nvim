@@ -14,6 +14,8 @@ This plugin is in initial development so all we have now is :
 + leader X - create new todo
 + leader J - jump to file (improved gF that jumps to column as well as line)
 
+both binds have "shift modifier" ... so, leader, shift+x
+
 ## Configuration
 
 Add following variable to your vimrc to alter behavior
