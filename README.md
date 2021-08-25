@@ -2,9 +2,6 @@
 
 plugin to quickly store ideas with exact place in a file
 
-## Dependency
-Does not work on current stable build (0.4.4). Needs neovim nightly as of now
-
 ## Installation
 ```
 Plug 'nagy135/capture-nvim'
@@ -36,5 +33,5 @@ let g:todo_file_location = "~/file"
 ```
 
 ## TODO
-+ check if inside git repository (now vim crashes instead)
++ check if inside git repository (now nvim crashes instead)
 + make higher level headers in combined root todo list
