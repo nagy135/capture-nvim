@@ -9,7 +9,6 @@ Plug 'nagy135/capture-nvim'
 
 ## Usage
 ![demo](demo_todo_list.png)
-This plugin is in initial development so all we have now is :
 
 + leader X - create new todo
 + leader J - jump to file (improved gF that jumps to column as well as line)
@@ -33,6 +32,17 @@ Variable project_root_todo overrides this
 let g:todo_file_location = "/absolute/path/to/file"
 let g:todo_file_location = "~/file"
 ```
+
+### Change binds
+Simply define binds you want with provided lua functions
+```
+nnoremap <leader>X :lua capture_module.create_todo()<CR>
+nnoremap <leader>J :lua capture_module.jump_to_file_with_column()<CR>
+```
+
+## Similair projects
+I am using this plugin for my own personal use and I like its minimal nature.
+For more features and more "emacs capture" feel, you might wanna try [orgmode.nvim](https://github.com/kristijanhusak/orgmode.nvim)
 
 ## TODO
 + check if inside git repository (now nvim crashes instead)
