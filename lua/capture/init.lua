@@ -46,47 +46,98 @@ function capture.create_todo()
     local cursor_x = vim.api.nvim_win_get_cursor(0)[1]
     local cursor_y = vim.api.nvim_win_get_cursor(0)[2]
 
-    local project_name = utils.get_project_name()
+    local status, Input = pcall(require, "nui.input")
+    if(status) then
+        local offset = vim.api.nvim_eval("line('w0')")
+        local event = require("nui.utils.autocmd").event
+        local input = Input({
+            position = {
+                row = cursor_x - offset,
+                col = cursor_y,
+            },
+            size = {
+                width = 25,
+                height = 2,
+            },
+            relative = "editor",
+            border = {
+                highlight = "MyHighlightGroup",
+                style = "single",
+                text = {
+                    top = "Capture:",
+                    top_align = "center",
+                },
+            },
+            win_options = {
+                winblend = 10,
+                winhighlight = "Normal:Normal",
+            },
+        }, {
+            prompt = "> ",
+            default_value = "",
+            on_close = function()
+                print("Input closed!")
+            end,
+            on_submit = function(value)
+                capture.store(value, cursor_x, cursor_y)
+            end,
+        })
 
-    local todo_file
-    local project_name_header = ""
-    if vim.g['project_root_todo'] == 1 then
-        local project_root = utils.get_project_root_path()
-        if project_root == "" then
-            print('not in the project ...exiting (if you want this to work outside project, use let g:project_root_todo = 0 )')
-            return
-        end
-        todo_file = project_root .. "/todo.md"
+        -- mount/open the component
+        input:mount()
 
+        -- unmount component when cursor leaves buffer
+        input:on(event.BufLeave, function()
+            input:unmount()
+        end)
     else
-        todo_file = capture.get_todo_file_location()
-        if project_name ~= "" then
-            project_name_header = "(" .. project_name .. ") "
-        end
+        -- fallback when nui.nvim not available
+        local value = vim.fn.input("TODO title: ")
+        capture.store(value, cursor_x, cursor_y)
     end
 
+end
 
-    local title = vim.fn.input("TODO title: ")
-    if title == nil or title == '' then
+function capture.store(text, x, y)
+    if text == nil or text == '' then
         print(' ...canceled')
     else
+        local project_name = utils.get_project_name()
+
+        local todo_file
+        local project_name_header = ""
+        if vim.g['project_root_todo'] == 1 then
+            local project_root = utils.get_project_root_path()
+            if project_root == "" then
+                print('not in the project ...exiting (if you want this to work outside project, use let g:project_root_todo = 0 )')
+                return
+            end
+            todo_file = project_root .. "/todo.md"
+
+        else
+            todo_file = capture.get_todo_file_location()
+            if project_name ~= "" then
+                project_name_header = "(" .. project_name .. ") "
+            end
+        end
+
         print(" ...saved")
         local buffer_path = vim.api.nvim_buf_get_name(0)
+
         utils.write_to_file(
         todo_file,
         "# " ..
         project_name_header ..
-        title ..
+        text ..
         "\n" ..
         buffer_path ..
         ":" ..
-        cursor_x ..
+        x ..
         ":" ..
-        cursor_y ..
+        y ..
         "\n"
         )
     end
-
 end
 
 -- Jumps to a file from todo list
@@ -109,7 +160,5 @@ function capture.test()
         print("haha")
     end
 end
-
--- Write 
 
 return capture
