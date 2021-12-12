@@ -12,6 +12,7 @@ Plug 'MunifTanjim/nui.nvim'
 ```
 
 ## Usage
+![demo_picker](demo_picker.png)
 ![demo](demo_todo_list.png)
 
 + leader X - create new todo
