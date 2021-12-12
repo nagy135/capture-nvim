@@ -43,8 +43,8 @@ end
 
 -- Creates new todo
 function capture.create_todo()
-    local cursor_x = vim.api.nvim_win_get_cursor(0)[1]
-    local cursor_y = vim.api.nvim_win_get_cursor(0)[2]
+    local line = vim.api.nvim_win_get_cursor(0)[1]
+    local column = vim.api.nvim_win_get_cursor(0)[2]
 
     local status, Input = pcall(require, "nui.input")
     if(status) then
@@ -52,8 +52,8 @@ function capture.create_todo()
         local event = require("nui.utils.autocmd").event
         local input = Input({
             position = {
-                row = cursor_x - offset,
-                col = cursor_y,
+                row = line - offset,
+                col = column,
             },
             size = {
                 width = 25,
@@ -79,7 +79,7 @@ function capture.create_todo()
                 print("Input closed!")
             end,
             on_submit = function(value)
-                capture.store(value, cursor_x, cursor_y)
+                capture.store(value, line, column)
             end,
         })
 
@@ -93,12 +93,12 @@ function capture.create_todo()
     else
         -- fallback when nui.nvim not available
         local value = vim.fn.input("TODO title: ")
-        capture.store(value, cursor_x, cursor_y)
+        capture.store(value, line, column)
     end
 
 end
 
-function capture.store(text, x, y)
+function capture.store(text, line, column)
     if text == nil or text == '' then
         print(' ...canceled')
     else
@@ -125,17 +125,10 @@ function capture.store(text, x, y)
         local buffer_path = vim.api.nvim_buf_get_name(0)
 
         utils.write_to_file(
-        todo_file,
-        "# " ..
-        project_name_header ..
-        text ..
-        "\n" ..
-        buffer_path ..
-        ":" ..
-        x ..
-        ":" ..
-        y ..
-        "\n"
+            todo_file,
+            "# " .. project_name_header .. text .. "\n" ..
+            buffer_path .. ":" .. line .. ":" .. column ..
+            "\n"
         )
     end
 end
