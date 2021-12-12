@@ -6,6 +6,10 @@ plugin to quickly store ideas with exact place in a file
 ```
 Plug 'nagy135/capture-nvim'
 ```
+Optionally for fancy gui prompt
+```
+Plug 'MunifTanjim/nui.nvim'
+```
 
 ## Usage
 ![demo](demo_todo_list.png)
