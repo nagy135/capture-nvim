@@ -28,6 +28,16 @@ end
 
 local M = {}
 
+M.settings = {
+    location = nil,
+    project_root_todo = false
+}
+
+function M.setup(opts)
+    for k,v in pairs(opts) do
+        M.settings[k] = v
+    end
+end
 
 -- validates user defined value or provides default
 -- for unified todo file location
