@@ -26,23 +26,23 @@ function utils.write_to_file(file, content)
     io.close(file)
 end
 
-local capture = {}
+local M = {}
+
 
 -- validates user defined value or provides default
 -- for unified todo file location
-function capture.get_todo_file_location()
-    local g_location = vim.g['todo_file_location']
-    if g_location == nil or g_location == "" then
+function M.get_todo_file_location()
+    if M.settings.location == nil or M.settings.location == "" then
         return os.getenv('HOME') .. "/todo.md";
     else
-        return g_location:gsub("^%s*~", os.getenv('HOME'))
+        return M.settings.location:gsub("^%s*~", os.getenv('HOME'))
     end
 
 
 end
 
 -- Creates new todo
-function capture.create_todo()
+function M.create_todo()
     local line = vim.api.nvim_win_get_cursor(0)[1]
     local column = vim.api.nvim_win_get_cursor(0)[2]
 
@@ -79,7 +79,7 @@ function capture.create_todo()
                 print("Input closed!")
             end,
             on_submit = function(value)
-                capture.store(value, line, column)
+                M.store(value, line, column)
             end,
         })
 
@@ -93,12 +93,12 @@ function capture.create_todo()
     else
         -- fallback when nui.nvim not available
         local value = vim.fn.input("TODO title: ")
-        capture.store(value, line, column)
+        M.store(value, line, column)
     end
 
 end
 
-function capture.store(text, line, column)
+function M.store(text, line, column)
     if text == nil or text == '' then
         print(' ...canceled')
     else
@@ -106,7 +106,7 @@ function capture.store(text, line, column)
 
         local todo_file
         local project_name_header = ""
-        if vim.g['project_root_todo'] == 1 then
+        if M.project_root_todo == true then
             local project_root = utils.get_project_root_path()
             if project_root == "" then
                 print('not in the project ...exiting (if you want this to work outside project, use let g:project_root_todo = 0 )')
@@ -115,7 +115,7 @@ function capture.store(text, line, column)
             todo_file = project_root .. "/todo.md"
 
         else
-            todo_file = capture.get_todo_file_location()
+            todo_file = M.get_todo_file_location()
             if project_name ~= "" then
                 project_name_header = "(" .. project_name .. ") "
             end
@@ -137,7 +137,7 @@ end
 -- Native gF doesnt work with columns
 -- e.x. (file_path:row:col)
 -- This is just exposed to user bind
-function capture.jump_to_file_with_column()
+function M.jump_to_file_with_column()
     local target = vim.fn.expand('<cWORD>')
     local parts = vim.split(target, ":")
     local file = parts[1]
@@ -147,11 +147,4 @@ function capture.jump_to_file_with_column()
     vim.api.nvim_win_set_cursor(0, {line, column})
 end
 
-function capture.test()
-    local root_path = vim.g['project_root_todo']
-    if root_path == 1 then
-        print("haha")
-    end
-end
-
-return capture
+return M
