@@ -70,18 +70,17 @@ function M.create_todo()
 
     local status, Input = pcall(require, "nui.input")
     if(status) then
-        local offset = vim.api.nvim_eval("line('w0')")
         local event = require("nui.utils.autocmd").event
         local input = Input({
             position = {
-                row = line - offset,
-                col = column,
+                row = 0,
+                col = 0,
             },
             size = {
                 width = 25,
                 height = 2,
             },
-            relative = "editor",
+            relative = "cursor",
             border = {
                 highlight = "MyHighlightGroup",
                 style = "single",
