@@ -10,6 +10,18 @@ function utils.get_project_root_path()
     return utils.run_and_trim([[git rev-parse --show-toplevel]])
 end
 
+-- checks exit code of git command
+-- TODO: this is hacky, maybe at least check in folder containing current file?
+function utils.is_git_repository()
+    local file = io.popen('git status &> /dev/null ; echo -n $?')
+    local output = file:read("*all")
+    if output + 0 == 0 then
+        return true
+    else
+        return false
+    end
+end
+
 -- runs given command and trims trailing whitespace (mostly newlines)
 function utils.run_and_trim(command)
     local handle = io.popen(command)
@@ -112,11 +124,15 @@ function M.store(text, line, column)
     if text == nil or text == '' then
         print(' ...canceled')
     else
+        if utils.is_git_repository() == false and M.settings.project_root_todo == true then
+            print('Not in a git repository ...exiting')
+            return
+        end
         local project_name = utils.get_project_name()
 
         local todo_file
         local project_name_header = ""
-        if M.project_root_todo == true then
+        if M.settings.project_root_todo == true then
             local project_root = utils.get_project_root_path()
             if project_root == "" then
                 print('not in the project ...exiting (if you want this to work outside project, use let g:project_root_todo = 0 )')
