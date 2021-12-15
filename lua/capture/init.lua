@@ -83,9 +83,9 @@ function M.create_todo()
             relative = "cursor",
             border = {
                 highlight = "MyHighlightGroup",
-                style = "single",
+                style = "double",
                 text = {
-                    top = "Capture:",
+                    top = "Capture",
                     top_align = "center",
                 },
             },
@@ -96,9 +96,6 @@ function M.create_todo()
         }, {
             prompt = "> ",
             default_value = "",
-            on_close = function()
-                print("Input closed!")
-            end,
             on_submit = function(value)
                 M.store(value, line, column)
             end,
@@ -109,6 +106,9 @@ function M.create_todo()
 
         -- unmount component when cursor leaves buffer
         input:on(event.BufLeave, function()
+            input:unmount()
+        end)
+        input:on(event.InsertLeave, function()
             input:unmount()
         end)
     else
